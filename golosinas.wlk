@@ -1,0 +1,135 @@
+class Bombon {
+  const property precio = 5
+  const property gusto = "frutilla"
+  const property esLibreDeGluten = true
+  var property peso = 15
+
+  method recibirMordisco() {
+    peso = (peso - ((peso * 0.8) - 1)).max(0)
+  }
+
+}
+
+class Alfajor {
+  const property precio = 12
+  const property gusto = "chocolate"
+  const property esLibreDeGluten = false
+  var property peso = 300
+
+  method recibirMordisco() {
+    peso = (peso - peso * 0.8).max(0)
+  }
+}
+
+class Caramelo {
+  const property precio = 1
+  const property gusto = "frutilla"
+  const property esLibreDeGluten = true
+  var property peso = 5
+
+  method redibirMordisco() {
+    peso = (peso - 1).max(0)
+  }
+}
+
+class Chupetin {
+  const property precio = 2
+  const property gusto = "naranja"
+  const property esLibreDeGluten = true
+  var property peso = 7
+
+  method redibirMordisco() {
+    peso = if (peso > 2){peso - peso * 0.1}
+  }
+}
+
+class Oblea {
+  const property precio = 5
+  const property gusto = "vainilla"
+  const property esLibreDeGluten = false
+  var property peso = 250
+
+  method recibirMordisco() {
+    peso = if (peso > 70){peso - peso * 0.5} else {peso - peso * 0.25}
+  }
+}
+
+class Chocolatin {
+  const property precio = 0.50 * pesoInicial
+  const property gusto = "chocolate"
+  const property esLibreDeGluten = false
+  const pesoInicial
+  var property peso = pesoInicial
+
+  method recibirMordisco() {
+    peso = (peso - 2).max(0)
+  }
+}
+
+class GolosinaBañada {
+  const golosinaBase
+  var bañadoDeChocolate = 4
+
+
+  const property peso = golosinaBase.peso() + bañadoDeChocolate
+  const property precio = golosinaBase.precio() + 2
+  const property gusto = golosinaBase.gusto()
+  const property esLibreDeGluten = golosinaBase.esLibreDeGluten()
+
+  method recibirMordisco() {
+    golosinaBase.recibirMordisco()
+    bañadoDeChocolate = (bañadoDeChocolate - 2).max(0)
+  }
+}
+
+class PastillaTuttiFrutti {
+  var property peso = 5
+  const property esLibreDeGluten
+  var property gusto = "frutilla"
+  const property precio = if(esLibreDeGluten){7}else {10}
+
+  method recibirMordisco() {
+    if(gusto == "frutilla"){
+      gusto = "chocolate"
+    }
+    else{
+      if(gusto == "chocolate"){
+        gusto == "naranja"
+      }
+      else{
+        gusto == "frutilla"
+      }
+    }
+  }
+}
+
+object mariano {
+  var property bolsaDeGolosinas = []
+
+
+  method cantidadDeGolosinas() = bolsaDeGolosinas.size()
+  method tieneLaGolosina(unaGolosina) = bolsaDeGolosinas.any({g => g == unaGolosina})
+  method hayGolosinaSinTacc() = bolsaDeGolosinas.any({g => g.esLibreDeGluten()})
+  method preciosCupidados() = bolsaDeGolosinas.any({g => g.precio() <= 10})
+  method golosinaDeSabor(unSabor) = bolsaDeGolosinas.find({g => g.sabor() == unSabor})
+  method golosinasDeSabor(unSabor) = bolsaDeGolosinas.filter({g => g.sabor() == unSabor})
+  method sabores() = bolsaDeGolosinas.map({g => g.sabor()}).asSet()
+  method golosinaMasCara() = bolsaDeGolosinas.max({g => g.precio()})
+  method pesoGolosinas() = bolsaDeGolosinas.sum({g => g.peso()})
+  method golosinasFaltantes(golosinasDeseadas) = golosinasDeseadas.asSet().difference(bolsaDeGolosinas.asSet())
+  method gustosFaltantes(gustosDeseados) = gustosDeseados.asSet().difference(self.sabores())
+
+
+  method comprar(unaGolosina) {
+    bolsaDeGolosinas.add(unaGolosina)
+  }
+
+  method desechar(unaGolosina) {
+    bolsaDeGolosinas.remove(unaGolosina)
+  }
+
+  method probarGolosinas() {
+    bolsaDeGolosinas.forEach({g => g.recibirMordisco()})
+  }
+
+}
