@@ -150,17 +150,20 @@ describe "tests golosinas con mordiscos" {
 }
 
 describe "tests golosinas bañadas" {
-
-  const chupetin1 = new Chupetin()
-  const chocolatin1 = new Chocolatin(pesoInicial = 20)
-  const pastillaTutiFrutti1 = new PastillaTuttiFrutti(esLibreDeGluten = true)
-
-  const chupetinBañado = new GolosinaBañada(golosinaBase = chupetin1)
-  const chocolatinBañado = new GolosinaBañada(golosinaBase = chocolatin1)
-  const pastillaBañada = new GolosinaBañada(golosinaBase = pastillaTutiFrutti1)
+  const chupetinBañado = new GolosinaBañada(golosinaBase = new Chupetin())
+  const chocolatinBañado = new GolosinaBañada(golosinaBase = new Chocolatin(pesoInicial = 20))
+  const pastillaBañada = new GolosinaBañada(golosinaBase = new PastillaTuttiFrutti(esLibreDeGluten = true))
 
   test "pastilla bañada" {
-    
+    assert.equals(pastillaBañada.peso(), 9)
+  }
+
+  test "chupetin bañado" {
+    assert.equals(chupetinBañado.peso(), 11)
+  }
+
+  test "chocolatin bañado" {
+    assert.equals(chocolatinBañado.peso(), 24)
   }
 }
 
