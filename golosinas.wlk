@@ -1,3 +1,4 @@
+import wollok.vm.*
 class Bombon {
   const property precio = 5
   const property gusto = "frutilla"
@@ -98,6 +99,8 @@ class PastillaTuttiFrutti {
 object mariano {
   var property bolsaDeGolosinas = []
 
+  const golosinasCompradas = []
+  const golosinasDesechadas = []
 
   method cantidadDeGolosinas() = bolsaDeGolosinas.size()
   method tieneLaGolosina(unaGolosina) = bolsaDeGolosinas.any({g => g == unaGolosina})
@@ -111,13 +114,24 @@ object mariano {
   method golosinasFaltantes(golosinasDeseadas) = golosinasDeseadas.asSet().difference(bolsaDeGolosinas.asSet())
   method gustosFaltantes(gustosDeseados) = gustosDeseados.asSet().difference(self.sabores())
 
+  // items desafio
+
+  method gastoEnSabor(sabor) = self.golosinaDeSabor(sabor).sum({g => g.precio()})
+  method saborMasPopular() = self.sabores().max({g => self.cantidadDeGolosinasDeSabor(g)})
+  method saborMasPesado() = self.bolsaDeGolosinas().max({g => g.peso()}).gusto()
+  method comproYDesecho(golosina) = golosinasCompradas.contains(golosina) and golosinasDesechadas.contains(golosina)
+
+  method cantidadDeGolosinasDeSabor(unSabor) = bolsaDeGolosinas.count({g => g.gusto() == unSabor}) 
+  
 
   method comprar(unaGolosina) {
     bolsaDeGolosinas.add(unaGolosina)
+    golosinasCompradas.add(unaGolosina)
   }
 
   method desechar(unaGolosina) {
     bolsaDeGolosinas.remove(unaGolosina)
+    golosinasDesechadas.add(unaGolosina)
   }
 
   method probarGolosinas() {
