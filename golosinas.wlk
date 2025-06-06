@@ -5,7 +5,7 @@ class Bombon {
   var property peso = 15
 
   method recibirMordisco() {
-    peso = (peso - ((peso * 0.8) - 1)).max(0)
+    peso = ((peso * 0.8) - 1).max(0)
   }
 
 }
@@ -17,7 +17,7 @@ class Alfajor {
   var property peso = 300
 
   method recibirMordisco() {
-    peso = (peso - peso * 0.8).max(0)
+    peso = peso * 0.8
   }
 }
 
@@ -27,7 +27,7 @@ class Caramelo {
   const property esLibreDeGluten = true
   var property peso = 5
 
-  method redibirMordisco() {
+  method recibirMordisco() {
     peso = (peso - 1).max(0)
   }
 }
@@ -38,7 +38,7 @@ class Chupetin {
   const property esLibreDeGluten = true
   var property peso = 7
 
-  method redibirMordisco() {
+  method recibirMordisco() {
     peso = if (peso > 2){peso - peso * 0.1}
   }
 }
@@ -85,24 +85,16 @@ class GolosinaBañada {
 class PastillaTuttiFrutti {
   var property peso = 5
   const property esLibreDeGluten
-  var property gusto = "frutilla"
+  var property gusto = gustos.get(indice)
   const property precio = if(esLibreDeGluten){7}else {10}
 
+  const gustos = ["frutilla", "chocolate", "naranja"]
+  var indice = 0
+
   method recibirMordisco() {
-    if(gusto == "frutilla"){
-      gusto = "chocolate"
-    }
-    else{
-      if(gusto == "chocolate"){
-        gusto == "naranja"
-      }
-      else{
-        gusto == "frutilla"
-      }
-    }
+    if(indice == 2) {indice = 0} else {indice += 1}
   }
 }
-
 object mariano {
   var property bolsaDeGolosinas = []
 
@@ -110,10 +102,10 @@ object mariano {
   method cantidadDeGolosinas() = bolsaDeGolosinas.size()
   method tieneLaGolosina(unaGolosina) = bolsaDeGolosinas.any({g => g == unaGolosina})
   method hayGolosinaSinTacc() = bolsaDeGolosinas.any({g => g.esLibreDeGluten()})
-  method preciosCupidados() = bolsaDeGolosinas.any({g => g.precio() <= 10})
-  method golosinaDeSabor(unSabor) = bolsaDeGolosinas.find({g => g.sabor() == unSabor})
-  method golosinasDeSabor(unSabor) = bolsaDeGolosinas.filter({g => g.sabor() == unSabor})
-  method sabores() = bolsaDeGolosinas.map({g => g.sabor()}).asSet()
+  method preciosCuidados() = bolsaDeGolosinas.any({g => g.precio() <= 10})
+  method golosinaDeSabor(unSabor) = bolsaDeGolosinas.find({g => g.gusto() == unSabor})
+  method golosinasDeSabor(unSabor) = bolsaDeGolosinas.filter({g => g.gusto() == unSabor})
+  method sabores() = bolsaDeGolosinas.map({g => g.gusto()}).asSet()
   method golosinaMasCara() = bolsaDeGolosinas.max({g => g.precio()})
   method pesoGolosinas() = bolsaDeGolosinas.sum({g => g.peso()})
   method golosinasFaltantes(golosinasDeseadas) = golosinasDeseadas.asSet().difference(bolsaDeGolosinas.asSet())
